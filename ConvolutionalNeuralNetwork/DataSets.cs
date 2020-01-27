@@ -40,9 +40,9 @@ namespace ConvolutionalNeuralNetwork
         public bool Load2(string path)
         {
             Console.WriteLine("Loading the datasets...");
-            var train_images = MnistReader.Load(Path.Combine(path, "train"));
-            var validation_images = MnistReader.Load(Path.Combine(path, "validation"));
-            var test_images = MnistReader.Load(Path.Combine(path, "test"));
+            var train_images = Reader.Load(Path.Combine(path, "train"));
+            var validation_images = Reader.Load(Path.Combine(path, "validation"));
+            var test_images = Reader.Load(Path.Combine(path, "test"));
 
             if (train_images.Count == 0 || validation_images.Count == 0 || test_images.Count == 0)
             {

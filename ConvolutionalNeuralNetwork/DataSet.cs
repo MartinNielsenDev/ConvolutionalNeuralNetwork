@@ -7,12 +7,12 @@ namespace ConvolutionalNeuralNetwork
 {
     internal class DataSet
     {
-        private readonly List<MnistEntry> _trainImages;
+        private readonly List<Entry> _trainImages;
         private readonly Random _random = new Random(RandomUtilities.Seed);
         private int _start;
         private int _epochCompleted;
 
-        public DataSet(List<MnistEntry> trainImages)
+        public DataSet(List<Entry> trainImages)
         {
             this._trainImages = trainImages;
         }

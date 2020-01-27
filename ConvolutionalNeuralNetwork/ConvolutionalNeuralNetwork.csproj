@@ -123,8 +123,8 @@
     <Compile Include="ConvNetSharp.Volume\VolumeStorage.cs" />
     <Compile Include="DataSet.cs" />
     <Compile Include="DataSets.cs" />
-    <Compile Include="MnistEntry.cs" />
-    <Compile Include="MnistReader.cs" />
+    <Compile Include="Entry.cs" />
+    <Compile Include="Reader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

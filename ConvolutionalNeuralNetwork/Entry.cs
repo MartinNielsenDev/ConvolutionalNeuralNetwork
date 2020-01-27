@@ -1,6 +1,6 @@
 namespace ConvolutionalNeuralNetwork
 {
-    public class MnistEntry
+    public class Entry
     {
         public byte[] Image { get; set; }
 
