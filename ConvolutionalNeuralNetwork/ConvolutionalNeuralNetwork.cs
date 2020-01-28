@@ -17,7 +17,8 @@ namespace ConvolutionalNeuralNetwork
 
         public ConvolutionalNeuralNetwork(string json, int x, int y)
         {
-            this._net = SerializationExtensions.FromJson<double>(json);
+            JObject data = JsonConvert.DeserializeObject<JObject>(json);
+            this._net = SerializationExtensions.FromJson<double>(data);
             this._trainer = new SgdTrainer<double>(this._net)
             {
                 LearningRate = 0.01,

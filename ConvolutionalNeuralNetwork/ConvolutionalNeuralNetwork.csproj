@@ -125,7 +125,7 @@
     <Compile Include="DataSets.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Reader.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="ConvolutionalNeuralNetwork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

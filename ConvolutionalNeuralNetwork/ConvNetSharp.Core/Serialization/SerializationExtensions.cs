@@ -8,9 +8,8 @@ namespace ConvNetSharp.Core.Serialization
 {
     public static class SerializationExtensions
     {
-        public static Net<T> FromJson<T>(string json) where T : struct, IEquatable<T>, IFormattable
+        public static Net<T> FromJson<T>(JObject data) where T : struct, IEquatable<T>, IFormattable
         {
-            var data = JsonConvert.DeserializeObject<JObject>(json);
             var dico = data.ToDictionary();
             var net = Net<T>.FromData(dico);
             return net;
