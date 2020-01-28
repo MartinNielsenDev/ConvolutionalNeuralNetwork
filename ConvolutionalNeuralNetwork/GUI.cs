@@ -27,28 +27,27 @@ namespace ConvolutionalNeuralNetwork
                 networkPathTextBox.Text = folderBrowserDialog1.SelectedPath;
             }
         }
-        private void newNetworkButton_Click(object sender, EventArgs e)
+        private async void newNetworkButton_Click(object sender, EventArgs e)
         {
-            createNetworkButton.Enabled = false;
-            trainButton.Enabled = false;
-            saveNetworkButton.Enabled = false;
-            importNetworkButton.Enabled = false;
+            AllowInput(false);
+            trainerProgressBar.Style = ProgressBarStyle.Marquee;
             Log($"[INFO] creating new network on {networkPathTextBox.Text}");
 
-            try
+            await Task.Run(() =>
             {
-                network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text);
-                Log("[OK] success");
-            }
-            catch (Exception err)
-            {
-                Log("[INFO] failed to create network");
-                Log($"[ERROR] {err.Message}");
-            }
-            createNetworkButton.Enabled = true;
-            trainButton.Enabled = true;
-            saveNetworkButton.Enabled = true;
-            importNetworkButton.Enabled = true;
+                try
+                {
+                    network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text);
+                    Log("[OK] success");
+                }
+                catch (Exception err)
+                {
+                    Log("[INFO] failed to create network");
+                    Log($"[ERROR] {err.Message}");
+                }
+            });
+            trainerProgressBar.Style = ProgressBarStyle.Blocks;
+            AllowInput(true);
         }
 
         private void trainButton_Click(object sender, EventArgs e)
@@ -61,9 +60,6 @@ namespace ConvolutionalNeuralNetwork
             if (trainButton.Text == "Train")
             {
                 trainButton.Text = "Pause";
-                createNetworkButton.Enabled = false;
-                saveNetworkButton.Enabled = false;
-                importNetworkButton.Enabled = false;
 
                 networkRunnerThread = new Thread(new ThreadStart(trainRunner))
                 {
@@ -76,7 +72,7 @@ namespace ConvolutionalNeuralNetwork
             }
             else if (trainButton.Text == "Pause")
             {
-                Log("[INFO] stopped training");
+                trainButton.Enabled = true;
                 trainButton.Text = "Train";
                 network.Abort = true;
 
@@ -86,16 +82,18 @@ namespace ConvolutionalNeuralNetwork
                 saveNetworkButton.Enabled = true;
                 importNetworkButton.Enabled = true;
                 trainerProgressBar.Style = ProgressBarStyle.Blocks;
+                Log("[INFO] stopped training");
             }
         }
 
-        private void importNetworkButton_Click(object sender, EventArgs e)
+        private async void importNetworkButton_Click(object sender, EventArgs e)
         {
             if (networkPathTextBox.Text == "")
             {
                 Log("[ERROR] no train location");
                 return;
             }
+            AllowInput(false);
             openFileDialog1.InitialDirectory = networkPathTextBox.Text;
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -104,14 +102,18 @@ namespace ConvolutionalNeuralNetwork
                 string json = File.ReadAllText(openFileDialog1.FileName);
                 try
                 {
-                    network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text, json);
-                    Log("[OK] success");
+                    await Task.Run(() =>
+                    {
+                        network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text, json);
+                        Log("[OK] success");
+                    });
                 }
                 catch
                 {
                     Log("[ERROR] failed to import");
                 }
             }
+            AllowInput(true);
         }
 
         private void saveNetworkButton_Click(object sender, EventArgs e)
@@ -179,9 +181,38 @@ namespace ConvolutionalNeuralNetwork
             AllowInput(true);
         }
 
-        private void generatePersonalizedDataButton_Click(object sender, EventArgs e)
+        private async void generatePersonalizedDataButton_Click(object sender, EventArgs e)
         {
+            AllowInput(false);
+            string[] dirs = Directory.GetDirectories(Path.Combine(networkPathTextBox.Text, "validation"));
+            double maxNoise = 0.35;
+            int validationImages = 100;
+            Random r = new Random();
 
+            await Task.Run(() =>
+            {
+                foreach (string dir in dirs)
+                {
+                    char lastLetter = dir[dir.Length - 1];
+                    string[] files = Directory.GetFiles($"{dir}", "*.png", SearchOption.TopDirectoryOnly);
+                    int imagesToCreatePerFile = (int)Math.Ceiling((double)validationImages / (double)files.Length);
+                    Directory.CreateDirectory(Path.Combine(networkPathTextBox.Text, "personalized_data_output", lastLetter.ToString()));
+                    int filesCreated = 0;
+
+                    foreach (string file in files)
+                    {
+                        if (filesCreated == validationImages) break;
+                        for (int i = 0; i < imagesToCreatePerFile; i++)
+                        {
+                            if (filesCreated == validationImages) break;
+                            filesCreated++;
+                            Bitmap noisedBitmap = GenerateNoise(new Bitmap(file), r.NextDouble() * maxNoise);
+                            noisedBitmap.Save(Path.Combine(networkPathTextBox.Text, "personalized_data_output", lastLetter.ToString(), (Guid.NewGuid().ToString() + ".png")));
+                        }
+                    }
+                }
+                AllowInput(true);
+            });
         }
 
         private void trainRunner()
@@ -201,9 +232,16 @@ namespace ConvolutionalNeuralNetwork
 
         private void AllowInput(bool allow)
         {
-            foreach (TabPage tab in tabControl.TabPages)
+            if (tabControl.InvokeRequired)
             {
-                tab.Enabled = allow;
+                this.Invoke(new Action<bool>(AllowInput), allow);
+            }
+            else
+            {
+                foreach (TabPage tab in tabControl.TabPages)
+                {
+                    tab.Enabled = allow;
+                }
             }
         }
 
@@ -256,11 +294,48 @@ namespace ConvolutionalNeuralNetwork
         {
             if (trainerTextBox.InvokeRequired)
             {
-                this.Invoke(new Action<string>(Log), new[] { msg });
+                this.Invoke(new Action<string>(Log), msg);
             }
             else
             {
                 trainerTextBox.AppendText(msg + Environment.NewLine);
+            }
+        }
+        private void LogData(string msg)
+        {
+            if (trainerTextBox.InvokeRequired)
+            {
+                this.Invoke(new Action<string>(LogData), new[] { msg });
+            }
+            else
+            {
+                dataTextBox.AppendText(msg + Environment.NewLine);
+            }
+        }
+
+        private async void testImagesButton_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                await Task.Run(() =>
+                {
+                    AllowInput(false);
+                    string[] files = Directory.GetFiles(folderBrowserDialog1.SelectedPath, "*");
+                    Bitmap[] bitmaps = new Bitmap[files.Length];
+
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        bitmaps[i] = new Bitmap(files[i]);
+                    }
+                    int[] results = network.GetPredictionFromBitmaps(bitmaps);
+                    int charCode = (int)'A';
+
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        LogData($"[INFO] {Path.GetFileNameWithoutExtension(files[i])}: {(char)(charCode + results[i])}");
+                    }
+                    AllowInput(true);
+                });
             }
         }
     }

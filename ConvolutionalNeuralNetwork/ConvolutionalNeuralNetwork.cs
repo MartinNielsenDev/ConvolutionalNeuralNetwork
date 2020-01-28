@@ -7,6 +7,7 @@ using ConvNetSharp.Volume;
 using ConvNetSharp.Volume.Double;
 using ConvNetSharp.Core.Serialization;
 using System.Drawing;
+using System.IO;
 
 namespace ConvolutionalNeuralNetwork
 {
@@ -17,9 +18,10 @@ namespace ConvolutionalNeuralNetwork
         private readonly CircularBuffer<double> _trainAccWindow = new CircularBuffer<double>(100);
         private Net<double> _net;
         private int _stepCount;
+        private int _classes;
         private SgdTrainer<double> _trainer;
         private double _trainAccuracy, _testAccuracy;
-        private DataSets datasets;
+        private DataSets _datasets;
         private Tuple<Volume<double>, Volume<double>, int[]> _trainData;
         private Tuple<Volume<double>, Volume<double>, int[]> _testData;
         public bool Abort = false;
@@ -35,6 +37,7 @@ namespace ConvolutionalNeuralNetwork
             }
             else
             {
+                _classes = Directory.GetDirectories(Path.Combine(path, "train"), "*").Length;
                 _net = new Net<double>();
                 _net.AddLayer(new InputLayer(_image_x, _image_y, 1));
                 _net.AddLayer(new ConvLayer(5, 5, 8) { Stride = 1, Pad = 2 });
@@ -43,8 +46,8 @@ namespace ConvolutionalNeuralNetwork
                 _net.AddLayer(new ConvLayer(5, 5, 16) { Stride = 1, Pad = 2 });
                 _net.AddLayer(new ReluLayer());
                 _net.AddLayer(new PoolLayer(3, 3) { Stride = 3 });
-                _net.AddLayer(new FullyConnLayer(10));
-                _net.AddLayer(new SoftmaxLayer(10));
+                _net.AddLayer(new FullyConnLayer(_classes));
+                _net.AddLayer(new SoftmaxLayer(_classes));
             }
             _trainer = new SgdTrainer<double>(_net)
             {
@@ -53,10 +56,10 @@ namespace ConvolutionalNeuralNetwork
                 Momentum = 0.9
             };
 
-            datasets = new DataSets();
-            datasets.Load(path);
+            _datasets = new DataSets();
+            _datasets.Load(path);
         }
-        public string GetPredictionFromBitmaps(Bitmap[] bitmaps)
+        public int[] GetPredictionFromBitmaps(Bitmap[] bitmaps)
         {
             Shape shape = new Shape(_image_x, _image_y, 1, bitmaps.Length);
             Volume<double> dataVolume = BuilderInstance.Volume.From(new double[shape.TotalLength], shape);
@@ -75,21 +78,20 @@ namespace ConvolutionalNeuralNetwork
                     }
                 }
             }
-
             _net.Forward(dataVolume);
 
-            return string.Join("", _net.GetPrediction().Select(x => x.ToString()).ToArray());
+            return _net.GetPrediction();
         }
         public double[] TrainNetwork()
         {
-            if(datasets == null)
+            if (_datasets == null)
             {
                 return new double[0];
             }
-            _trainData = datasets.Train.NextBatch(_trainer.BatchSize);
+            _trainData = _datasets.Train.NextBatch(_trainer.BatchSize, _classes);
             Train(_trainData.Item1, _trainData.Item2, _trainData.Item3);
 
-            _testData = datasets.Test.NextBatch(_trainer.BatchSize);
+            _testData = _datasets.Test.NextBatch(_trainer.BatchSize, _classes);
             Test(_testData.Item1, _testData.Item3, _testAccWindow);
 
             _trainAccuracy = Math.Round(_trainAccWindow.Items.Average() * 100.0, 2);

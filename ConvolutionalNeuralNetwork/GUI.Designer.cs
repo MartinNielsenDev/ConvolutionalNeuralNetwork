@@ -45,26 +45,27 @@ namespace ConvolutionalNeuralNetwork
             this.trainerLoadingPanel = new System.Windows.Forms.Panel();
             this.trainerNavTableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.dataPage = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.browseButton = new System.Windows.Forms.Button();
-            this.networkPathTextBox = new System.Windows.Forms.TextBox();
-            this.networkPathLabel = new System.Windows.Forms.Label();
+            this.dataTextBox = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataProgressBar = new System.Windows.Forms.ProgressBar();
             this.dataProgressBarLabel = new System.Windows.Forms.Label();
             this.dataNavLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.generateDataButton = new System.Windows.Forms.Button();
             this.generatePersonalizedDataButton = new System.Windows.Forms.Button();
-            this.dataTextBox = new System.Windows.Forms.TextBox();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.browseButton = new System.Windows.Forms.Button();
+            this.networkPathTextBox = new System.Windows.Forms.TextBox();
+            this.networkPathLabel = new System.Windows.Forms.Label();
+            this.testImagesButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.trainerPage.SuspendLayout();
             this.trainerTextBoxPanel.SuspendLayout();
             this.trainerLoadingPanel.SuspendLayout();
             this.trainerNavTableLayoutPanel.SuspendLayout();
             this.dataPage.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.panel2.SuspendLayout();
             this.dataNavLayoutPanel.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // trainButton
@@ -86,6 +87,7 @@ namespace ConvolutionalNeuralNetwork
             this.trainerTextBox.Multiline = true;
             this.trainerTextBox.Name = "trainerTextBox";
             this.trainerTextBox.ReadOnly = true;
+            this.trainerTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.trainerTextBox.Size = new System.Drawing.Size(424, 146);
             this.trainerTextBox.TabIndex = 1;
             // 
@@ -232,6 +234,89 @@ namespace ConvolutionalNeuralNetwork
             this.dataPage.Text = "Data";
             this.dataPage.UseVisualStyleBackColor = true;
             // 
+            // dataTextBox
+            // 
+            this.dataTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataTextBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.dataTextBox.Location = new System.Drawing.Point(3, 84);
+            this.dataTextBox.Multiline = true;
+            this.dataTextBox.Name = "dataTextBox";
+            this.dataTextBox.ReadOnly = true;
+            this.dataTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.dataTextBox.Size = new System.Drawing.Size(430, 152);
+            this.dataTextBox.TabIndex = 16;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.dataProgressBar);
+            this.panel2.Controls.Add(this.dataProgressBarLabel);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(3, 45);
+            this.panel2.Name = "panel2";
+            this.panel2.Padding = new System.Windows.Forms.Padding(3);
+            this.panel2.Size = new System.Drawing.Size(430, 39);
+            this.panel2.TabIndex = 15;
+            // 
+            // dataProgressBar
+            // 
+            this.dataProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataProgressBar.Location = new System.Drawing.Point(3, 3);
+            this.dataProgressBar.MarqueeAnimationSpeed = 50;
+            this.dataProgressBar.Name = "dataProgressBar";
+            this.dataProgressBar.Size = new System.Drawing.Size(369, 33);
+            this.dataProgressBar.TabIndex = 5;
+            // 
+            // dataProgressBarLabel
+            // 
+            this.dataProgressBarLabel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.dataProgressBarLabel.Location = new System.Drawing.Point(372, 3);
+            this.dataProgressBarLabel.Name = "dataProgressBarLabel";
+            this.dataProgressBarLabel.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
+            this.dataProgressBarLabel.Size = new System.Drawing.Size(55, 33);
+            this.dataProgressBarLabel.TabIndex = 6;
+            this.dataProgressBarLabel.Text = "0.0%";
+            this.dataProgressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // dataNavLayoutPanel
+            // 
+            this.dataNavLayoutPanel.ColumnCount = 3;
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.dataNavLayoutPanel.Controls.Add(this.testImagesButton, 2, 0);
+            this.dataNavLayoutPanel.Controls.Add(this.generatePersonalizedDataButton, 1, 0);
+            this.dataNavLayoutPanel.Controls.Add(this.generateDataButton, 0, 0);
+            this.dataNavLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.dataNavLayoutPanel.Location = new System.Drawing.Point(3, 3);
+            this.dataNavLayoutPanel.Name = "dataNavLayoutPanel";
+            this.dataNavLayoutPanel.RowCount = 1;
+            this.dataNavLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.dataNavLayoutPanel.Size = new System.Drawing.Size(430, 42);
+            this.dataNavLayoutPanel.TabIndex = 14;
+            // 
+            // generateDataButton
+            // 
+            this.generateDataButton.AutoSize = true;
+            this.generateDataButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.generateDataButton.Location = new System.Drawing.Point(3, 3);
+            this.generateDataButton.Name = "generateDataButton";
+            this.generateDataButton.Size = new System.Drawing.Size(137, 35);
+            this.generateDataButton.TabIndex = 7;
+            this.generateDataButton.Text = "Generate Data";
+            this.generateDataButton.UseVisualStyleBackColor = true;
+            this.generateDataButton.Click += new System.EventHandler(this.generateDataButton_Click);
+            // 
+            // generatePersonalizedDataButton
+            // 
+            this.generatePersonalizedDataButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.generatePersonalizedDataButton.Location = new System.Drawing.Point(146, 3);
+            this.generatePersonalizedDataButton.Name = "generatePersonalizedDataButton";
+            this.generatePersonalizedDataButton.Size = new System.Drawing.Size(137, 35);
+            this.generatePersonalizedDataButton.TabIndex = 0;
+            this.generatePersonalizedDataButton.Text = "Generate Personalized Data";
+            this.generatePersonalizedDataButton.UseVisualStyleBackColor = true;
+            this.generatePersonalizedDataButton.Click += new System.EventHandler(this.generatePersonalizedDataButton_Click);
+            // 
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.AutoSize = true;
@@ -271,7 +356,7 @@ namespace ConvolutionalNeuralNetwork
             this.networkPathTextBox.Name = "networkPathTextBox";
             this.networkPathTextBox.Size = new System.Drawing.Size(304, 21);
             this.networkPathTextBox.TabIndex = 0;
-            this.networkPathTextBox.Text = "C:\\test\\ratings_network";
+            this.networkPathTextBox.Text = "C:\\test\\maps_network";
             // 
             // networkPathLabel
             // 
@@ -285,87 +370,16 @@ namespace ConvolutionalNeuralNetwork
             this.networkPathLabel.Text = "Location";
             this.networkPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // panel2
+            // testImagesButton
             // 
-            this.panel2.Controls.Add(this.dataProgressBar);
-            this.panel2.Controls.Add(this.dataProgressBarLabel);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(3, 45);
-            this.panel2.Name = "panel2";
-            this.panel2.Padding = new System.Windows.Forms.Padding(3);
-            this.panel2.Size = new System.Drawing.Size(430, 39);
-            this.panel2.TabIndex = 15;
-            // 
-            // dataProgressBar
-            // 
-            this.dataProgressBar.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataProgressBar.Location = new System.Drawing.Point(3, 3);
-            this.dataProgressBar.MarqueeAnimationSpeed = 50;
-            this.dataProgressBar.Name = "dataProgressBar";
-            this.dataProgressBar.Size = new System.Drawing.Size(369, 33);
-            this.dataProgressBar.TabIndex = 5;
-            // 
-            // dataProgressBarLabel
-            // 
-            this.dataProgressBarLabel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.dataProgressBarLabel.Location = new System.Drawing.Point(372, 3);
-            this.dataProgressBarLabel.Name = "dataProgressBarLabel";
-            this.dataProgressBarLabel.Padding = new System.Windows.Forms.Padding(13, 0, 0, 0);
-            this.dataProgressBarLabel.Size = new System.Drawing.Size(55, 33);
-            this.dataProgressBarLabel.TabIndex = 6;
-            this.dataProgressBarLabel.Text = "0.0%";
-            this.dataProgressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // dataNavLayoutPanel
-            // 
-            this.dataNavLayoutPanel.ColumnCount = 2;
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.dataNavLayoutPanel.Controls.Add(this.generateDataButton, 0, 0);
-            this.dataNavLayoutPanel.Controls.Add(this.generatePersonalizedDataButton, 1, 0);
-            this.dataNavLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.dataNavLayoutPanel.Location = new System.Drawing.Point(3, 3);
-            this.dataNavLayoutPanel.Name = "dataNavLayoutPanel";
-            this.dataNavLayoutPanel.RowCount = 1;
-            this.dataNavLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.dataNavLayoutPanel.Size = new System.Drawing.Size(430, 42);
-            this.dataNavLayoutPanel.TabIndex = 14;
-            // 
-            // generateDataButton
-            // 
-            this.generateDataButton.AutoSize = true;
-            this.generateDataButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.generateDataButton.Location = new System.Drawing.Point(3, 3);
-            this.generateDataButton.Name = "generateDataButton";
-            this.generateDataButton.Size = new System.Drawing.Size(209, 35);
-            this.generateDataButton.TabIndex = 7;
-            this.generateDataButton.Text = "Generate Data";
-            this.generateDataButton.UseVisualStyleBackColor = true;
-            this.generateDataButton.Click += new System.EventHandler(this.generateDataButton_Click);
-            // 
-            // generatePersonalizedDataButton
-            // 
-            this.generatePersonalizedDataButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.generatePersonalizedDataButton.Location = new System.Drawing.Point(218, 3);
-            this.generatePersonalizedDataButton.Name = "generatePersonalizedDataButton";
-            this.generatePersonalizedDataButton.Size = new System.Drawing.Size(209, 35);
-            this.generatePersonalizedDataButton.TabIndex = 0;
-            this.generatePersonalizedDataButton.Text = "Generate Personalized Data";
-            this.generatePersonalizedDataButton.UseVisualStyleBackColor = true;
-            this.generatePersonalizedDataButton.Click += new System.EventHandler(this.generatePersonalizedDataButton_Click);
-            // 
-            // dataTextBox
-            // 
-            this.dataTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataTextBox.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.dataTextBox.Location = new System.Drawing.Point(3, 84);
-            this.dataTextBox.Multiline = true;
-            this.dataTextBox.Name = "dataTextBox";
-            this.dataTextBox.ReadOnly = true;
-            this.dataTextBox.Size = new System.Drawing.Size(430, 152);
-            this.dataTextBox.TabIndex = 16;
+            this.testImagesButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.testImagesButton.Location = new System.Drawing.Point(289, 3);
+            this.testImagesButton.Name = "testImagesButton";
+            this.testImagesButton.Size = new System.Drawing.Size(138, 35);
+            this.testImagesButton.TabIndex = 17;
+            this.testImagesButton.Text = "Test Images";
+            this.testImagesButton.UseVisualStyleBackColor = true;
+            this.testImagesButton.Click += new System.EventHandler(this.testImagesButton_Click);
             // 
             // GUI
             // 
@@ -388,11 +402,11 @@ namespace ConvolutionalNeuralNetwork
             this.trainerNavTableLayoutPanel.PerformLayout();
             this.dataPage.ResumeLayout(false);
             this.dataPage.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.dataNavLayoutPanel.ResumeLayout(false);
             this.dataNavLayoutPanel.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -426,5 +440,6 @@ namespace ConvolutionalNeuralNetwork
         private TableLayoutPanel dataNavLayoutPanel;
         private Button generateDataButton;
         private Button generatePersonalizedDataButton;
+        private Button testImagesButton;
     }
 }

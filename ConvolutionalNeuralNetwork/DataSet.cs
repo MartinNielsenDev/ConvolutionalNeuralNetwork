@@ -17,14 +17,13 @@ namespace ConvolutionalNeuralNetwork
             this._trainImages = trainImages;
         }
 
-        public Tuple<Volume<double>, Volume<double>, int[]> NextBatch(int batchSize)
+        public Tuple<Volume<double>, Volume<double>, int[]> NextBatch(int batchSize, int classes)
         {
             const int w = 28;
             const int h = 28;
-            const int numClasses = 10;
 
             var dataShape = new Shape(w, h, 1, batchSize);
-            var labelShape = new Shape(1, 1, numClasses, batchSize);
+            var labelShape = new Shape(1, 1, classes, batchSize);
             var data = new double[dataShape.TotalLength];
             var label = new double[labelShape.TotalLength];
             var labels = new int[batchSize];
@@ -58,14 +57,13 @@ namespace ConvolutionalNeuralNetwork
                     }
                 }
 
-                label[i * numClasses + entry.Label] = 1.0;
+                label[i * classes + entry.Label] = 1.0;
 
                 this._start++;
                 if (this._start == this._trainImages.Count)
                 {
                     this._start = 0;
                     this._epochCompleted++;
-                    Console.WriteLine($"Epoch #{this._epochCompleted}");
                 }
             }
 
