@@ -7,12 +7,10 @@ using System.Linq;
 
 namespace ConvolutionalNeuralNetwork
 {
-    public static class MnistReader
+    public static class Reader
     {
-        public static List<MnistEntry> Load(string path)
+        public static List<Entry> Load(string path)
         {
-            //var label = LoadLabels(labelFile, maxItem);
-            //var images = LoadImages(imageFile, maxItem);
             List<int> label;
             List<byte[]> images;
 
@@ -20,10 +18,10 @@ namespace ConvolutionalNeuralNetwork
 
             if (label.Count == 0 || images.Count == 0)
             {
-                return new List<MnistEntry>();
+                return new List<Entry>();
             }
 
-            return label.Select((t, i) => new MnistEntry { Label = t, Image = images[i] }).ToList();
+            return label.Select((t, i) => new Entry { Label = t, Image = images[i] }).ToList();
         }
 
         private static (List<int> label, List<byte[]> images) LoadImagesAndLabels(string path)
@@ -40,7 +38,7 @@ namespace ConvolutionalNeuralNetwork
                 foreach (string file in files)
                 {
                     Bitmap bitmap = new Bitmap(file);
-                    Bitmap resizedBitmap = ResizeBitmap(bitmap, 28, 28);
+                    Bitmap resizedBitmap = ResizeBitmap(bitmap, ConvolutionalNeuralNetwork._image_x, ConvolutionalNeuralNetwork._image_y);
                     label.Add(number);
                     images.Add(ToGrayscaleByte(resizedBitmap));
                 }
