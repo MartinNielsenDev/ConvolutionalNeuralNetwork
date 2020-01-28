@@ -6,37 +6,12 @@ namespace ConvolutionalNeuralNetwork
 {
     internal class DataSets
     {
-        private const string urlMnist = @"http://yann.lecun.com/exdb/mnist/";
-        private const string mnistFolder = @"..\Mnist\";
-        private const string trainingLabelFile = "train-labels-idx1-ubyte.gz";
-        private const string trainingImageFile = "train-images-idx3-ubyte.gz";
-        private const string testingLabelFile = "t10k-labels-idx1-ubyte.gz";
-        private const string testingImageFile = "t10k-images-idx3-ubyte.gz";
-
         public DataSet Train { get; set; }
 
         public DataSet Validation { get; set; }
 
         public DataSet Test { get; set; }
 
-        private void DownloadFile(string urlFile, string destFilepath)
-        {
-            if (!File.Exists(destFilepath))
-            {
-                try
-                {
-                    using (var client = new WebClient())
-                    {
-                        client.DownloadFile(urlFile, destFilepath);
-                    }
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Failed downloading " + urlFile);
-                    Console.WriteLine(e.Message);
-                }
-            }
-        }
         public bool Load2(string path)
         {
             Console.WriteLine("Loading the datasets...");
