@@ -6,6 +6,10 @@ using ConvNetSharp.Volume;
 using ConvNetSharp.Volume.Double;
 using ConvNetSharp.Core.Serialization;
 using System.Drawing;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace ConvolutionalNeuralNetwork
 {
@@ -15,9 +19,15 @@ namespace ConvolutionalNeuralNetwork
         private Net<double> _net;
         private SgdTrainer<double> _trainer;
 
-        public ConvolutionalNeuralNetwork(string json, int x, int y)
+        public ConvolutionalNeuralNetwork(string json)
         {
             JObject data = JsonConvert.DeserializeObject<JObject>(json);
+            this.image_x = (int)data["Layers"][0]["InputWidth"];
+            this.image_y = (int)data["Layers"][0]["InputHeight"];
+            if (this.image_x == 0 || this.image_y == 0)
+            {
+                throw new Exception("InputWidth or InputHeight is equal to zero");
+            }
             this._net = SerializationExtensions.FromJson<double>(data);
             this._trainer = new SgdTrainer<double>(this._net)
             {
@@ -25,11 +35,9 @@ namespace ConvolutionalNeuralNetwork
                 BatchSize = 20,
                 Momentum = 0.9
             };
-            this.image_x = x;
-            this.image_y = y;
         }
 
-        public string GetPredictionFromBitmaps(Bitmap[] bitmaps)
+        public int[] GetPredictionFromBitmaps(Bitmap[] bitmaps)
         {
             Shape shape = new Shape(image_x, image_y, 1, bitmaps.Length);
             Volume<double> dataVolume = BuilderInstance.Volume.From(new double[shape.TotalLength], shape);
@@ -51,7 +59,7 @@ namespace ConvolutionalNeuralNetwork
 
             this._net.Forward(dataVolume);
 
-            return string.Join("", this._net.GetPrediction().Select(x => x.ToString()).ToArray());
+            return this._net.GetPrediction();
         }
     }
 }
