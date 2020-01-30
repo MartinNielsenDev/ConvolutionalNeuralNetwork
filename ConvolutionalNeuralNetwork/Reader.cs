@@ -47,7 +47,7 @@ namespace ConvolutionalNeuralNetwork
 
         public static byte[] ToGrayscaleByte(Bitmap resizedBitmap)
         {
-            byte[] byteArray = new byte[28 * 28];
+            byte[] byteArray = new byte[resizedBitmap.Width * resizedBitmap.Height];
 
             unsafe
             {
@@ -59,25 +59,6 @@ namespace ConvolutionalNeuralNetwork
                         byte byPixel = (byte)((30 * clr.R + 59 * clr.G + 11 * clr.B) / 100);
 
                         byteArray[x * y] = byPixel;
-                    }
-                }
-            }
-            return byteArray;
-        }
-        public static float[] ToGrayscaleFloat(Bitmap resizedBitmap)
-        {
-            float[] byteArray = new float[28 * 28];
-
-            unsafe
-            {
-                for (int y = 0; y < resizedBitmap.Height; y++)
-                {
-                    for (int x = 0; x < resizedBitmap.Width; x++)
-                    {
-                        Color clr = resizedBitmap.GetPixel(x, y);
-                        byte byPixel = (byte)((30 * clr.R + 59 * clr.G + 11 * clr.B) / 100);
-
-                        byteArray[x * y] = byPixel / 255;
                     }
                 }
             }

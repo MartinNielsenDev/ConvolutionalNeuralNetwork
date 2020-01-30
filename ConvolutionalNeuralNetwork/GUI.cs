@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -14,7 +11,6 @@ namespace ConvolutionalNeuralNetwork
     public partial class GUI : Form
     {
         private ConvolutionalNeuralNetwork network;
-        private Thread networkRunnerThread;
         public GUI()
         {
             InitializeComponent();
@@ -50,7 +46,7 @@ namespace ConvolutionalNeuralNetwork
             AllowInput(true);
         }
 
-        private void trainButton_Click(object sender, EventArgs e)
+        private async void trainButton_Click(object sender, EventArgs e)
         {
             if (network == null)
             {
@@ -60,23 +56,35 @@ namespace ConvolutionalNeuralNetwork
             if (trainButton.Text == "Train")
             {
                 trainButton.Text = "Pause";
-
-                networkRunnerThread = new Thread(new ThreadStart(trainRunner))
-                {
-                    IsBackground = true
-                };
-                networkRunnerThread.Start();
-                Log("[INFO] started");
+                network.Abort = false;
                 trainButton.Enabled = true;
-                trainerProgressBar.Style = ProgressBarStyle.Marquee;
+                Log("[INFO] started");
+
+                await Task.Run(() =>
+                {
+                    List<double> accuracies = new List<double>();
+                    for (int i = 0; i < 30; i++) accuracies.Add(0);
+                    do
+                    {
+                        double[] output = network.TrainNetwork();
+                        if (output.Length < 3)
+                        {
+                            network.Abort = true;
+                            Log("Network Training failed...");
+                            break;
+                        }
+                        accuracies.RemoveAt(0);
+                        accuracies.Add((output[0] + output[1]) / 2);
+                        SetTrainerProgressBar((int)accuracies.Average(), $"{accuracies.Average().ToString("0.00")}%");
+                        Log($"Train Accuracy: {output[0]}% Test Accuracy: {output[1]}% Steps: {output[2]} Avg Accuracy: {accuracies.Average().ToString("0.00")}%");
+                    } while (!network.Abort);
+                });
             }
             else if (trainButton.Text == "Pause")
             {
                 trainButton.Enabled = true;
                 trainButton.Text = "Train";
                 network.Abort = true;
-
-                networkRunnerThread.Abort();
 
                 createNetworkButton.Enabled = true;
                 saveNetworkButton.Enabled = true;
@@ -133,10 +141,10 @@ namespace ConvolutionalNeuralNetwork
         private async void generateDataButton_Click(object sender, EventArgs e)
         {
             AllowInput(false);
-            int trainImages = 100;
-            int validationImages = 100;
-            int testImages = 100;
-            double maxNoise = 0.35;
+            int trainImages = int.Parse(imagesToCreateTextBox.Text);
+            int validationImages = int.Parse(imagesToCreateTextBox.Text);
+            int testImages = int.Parse(imagesToCreateTextBox.Text);
+            double maxNoise = 0.15;
             string[] files = Directory.GetFiles(Path.Combine(networkPathTextBox.Text, "original"), "*", SearchOption.TopDirectoryOnly);
 
             Random r = new Random();
@@ -185,8 +193,8 @@ namespace ConvolutionalNeuralNetwork
         {
             AllowInput(false);
             string[] dirs = Directory.GetDirectories(Path.Combine(networkPathTextBox.Text, "validation"));
-            double maxNoise = 0.35;
-            int validationImages = 100;
+            double maxNoise = 0.15;
+            int validationImages = int.Parse(imagesToCreateTextBox.Text);
             Random r = new Random();
 
             await Task.Run(() =>
@@ -215,21 +223,6 @@ namespace ConvolutionalNeuralNetwork
             });
         }
 
-        private void trainRunner()
-        {
-            do
-            {
-                double[] output = network.TrainNetwork();
-                if (output.Length < 3)
-                {
-                    network.Abort = true;
-                    Log("Network Training failed...");
-                    break;
-                }
-                Log($"Train Accuracy: {output[0]}% Test Accuracy: {output[1]}% Steps: {output[2]}");
-            } while (!network.Abort);
-        }
-
         private void AllowInput(bool allow)
         {
             if (tabControl.InvokeRequired)
@@ -242,6 +235,19 @@ namespace ConvolutionalNeuralNetwork
                 {
                     tab.Enabled = allow;
                 }
+            }
+        }
+
+        private void SetTrainerProgressBar(int percent, string text)
+        {
+            if (trainerProgressBar.InvokeRequired)
+            {
+                this.Invoke(new Action<int, string>(SetTrainerProgressBar), percent, text);
+            }
+            else
+            {
+                trainerProgressBar.Value = percent;
+                trainerProgressBarLabel.Text = text;
             }
         }
 
@@ -337,6 +343,11 @@ namespace ConvolutionalNeuralNetwork
                     AllowInput(true);
                 });
             }
+        }
+
+        private void imagesToCreateTextBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
         }
     }
 }

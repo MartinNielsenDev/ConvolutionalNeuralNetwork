@@ -50,13 +50,14 @@ namespace ConvolutionalNeuralNetwork
             this.dataProgressBar = new System.Windows.Forms.ProgressBar();
             this.dataProgressBarLabel = new System.Windows.Forms.Label();
             this.dataNavLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
-            this.generateDataButton = new System.Windows.Forms.Button();
+            this.testImagesButton = new System.Windows.Forms.Button();
             this.generatePersonalizedDataButton = new System.Windows.Forms.Button();
+            this.generateDataButton = new System.Windows.Forms.Button();
+            this.imagesToCreateTextBox = new System.Windows.Forms.TextBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.browseButton = new System.Windows.Forms.Button();
             this.networkPathTextBox = new System.Windows.Forms.TextBox();
             this.networkPathLabel = new System.Windows.Forms.Label();
-            this.testImagesButton = new System.Windows.Forms.Button();
             this.tabControl.SuspendLayout();
             this.trainerPage.SuspendLayout();
             this.trainerTextBoxPanel.SuspendLayout();
@@ -112,7 +113,7 @@ namespace ConvolutionalNeuralNetwork
             this.trainerProgressBarLabel.Name = "trainerProgressBarLabel";
             this.trainerProgressBarLabel.Size = new System.Drawing.Size(55, 33);
             this.trainerProgressBarLabel.TabIndex = 6;
-            this.trainerProgressBarLabel.Text = "0%";
+            this.trainerProgressBarLabel.Text = "0.0%";
             this.trainerProgressBarLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // createNetworkButton
@@ -279,13 +280,15 @@ namespace ConvolutionalNeuralNetwork
             // 
             // dataNavLayoutPanel
             // 
-            this.dataNavLayoutPanel.ColumnCount = 3;
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
-            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 33.33333F));
+            this.dataNavLayoutPanel.ColumnCount = 4;
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
+            this.dataNavLayoutPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
             this.dataNavLayoutPanel.Controls.Add(this.testImagesButton, 2, 0);
             this.dataNavLayoutPanel.Controls.Add(this.generatePersonalizedDataButton, 1, 0);
             this.dataNavLayoutPanel.Controls.Add(this.generateDataButton, 0, 0);
+            this.dataNavLayoutPanel.Controls.Add(this.imagesToCreateTextBox, 3, 0);
             this.dataNavLayoutPanel.Dock = System.Windows.Forms.DockStyle.Top;
             this.dataNavLayoutPanel.Location = new System.Drawing.Point(3, 3);
             this.dataNavLayoutPanel.Name = "dataNavLayoutPanel";
@@ -294,28 +297,49 @@ namespace ConvolutionalNeuralNetwork
             this.dataNavLayoutPanel.Size = new System.Drawing.Size(430, 42);
             this.dataNavLayoutPanel.TabIndex = 14;
             // 
+            // testImagesButton
+            // 
+            this.testImagesButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.testImagesButton.Location = new System.Drawing.Point(217, 3);
+            this.testImagesButton.Name = "testImagesButton";
+            this.testImagesButton.Size = new System.Drawing.Size(101, 35);
+            this.testImagesButton.TabIndex = 17;
+            this.testImagesButton.Text = "Test Images";
+            this.testImagesButton.UseVisualStyleBackColor = true;
+            this.testImagesButton.Click += new System.EventHandler(this.testImagesButton_Click);
+            // 
+            // generatePersonalizedDataButton
+            // 
+            this.generatePersonalizedDataButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.generatePersonalizedDataButton.Location = new System.Drawing.Point(110, 3);
+            this.generatePersonalizedDataButton.Name = "generatePersonalizedDataButton";
+            this.generatePersonalizedDataButton.Size = new System.Drawing.Size(101, 35);
+            this.generatePersonalizedDataButton.TabIndex = 0;
+            this.generatePersonalizedDataButton.Text = "Generate V2";
+            this.generatePersonalizedDataButton.UseVisualStyleBackColor = true;
+            this.generatePersonalizedDataButton.Click += new System.EventHandler(this.generatePersonalizedDataButton_Click);
+            // 
             // generateDataButton
             // 
             this.generateDataButton.AutoSize = true;
             this.generateDataButton.Dock = System.Windows.Forms.DockStyle.Top;
             this.generateDataButton.Location = new System.Drawing.Point(3, 3);
             this.generateDataButton.Name = "generateDataButton";
-            this.generateDataButton.Size = new System.Drawing.Size(137, 35);
+            this.generateDataButton.Size = new System.Drawing.Size(101, 35);
             this.generateDataButton.TabIndex = 7;
             this.generateDataButton.Text = "Generate Data";
             this.generateDataButton.UseVisualStyleBackColor = true;
             this.generateDataButton.Click += new System.EventHandler(this.generateDataButton_Click);
             // 
-            // generatePersonalizedDataButton
+            // imagesToCreateTextBox
             // 
-            this.generatePersonalizedDataButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.generatePersonalizedDataButton.Location = new System.Drawing.Point(146, 3);
-            this.generatePersonalizedDataButton.Name = "generatePersonalizedDataButton";
-            this.generatePersonalizedDataButton.Size = new System.Drawing.Size(137, 35);
-            this.generatePersonalizedDataButton.TabIndex = 0;
-            this.generatePersonalizedDataButton.Text = "Generate Personalized Data";
-            this.generatePersonalizedDataButton.UseVisualStyleBackColor = true;
-            this.generatePersonalizedDataButton.Click += new System.EventHandler(this.generatePersonalizedDataButton_Click);
+            this.imagesToCreateTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imagesToCreateTextBox.Location = new System.Drawing.Point(324, 8);
+            this.imagesToCreateTextBox.Margin = new System.Windows.Forms.Padding(3, 8, 3, 3);
+            this.imagesToCreateTextBox.Name = "imagesToCreateTextBox";
+            this.imagesToCreateTextBox.Size = new System.Drawing.Size(103, 20);
+            this.imagesToCreateTextBox.TabIndex = 18;
+            this.imagesToCreateTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.imagesToCreateTextBox_KeyPress);
             // 
             // tableLayoutPanel2
             // 
@@ -369,17 +393,6 @@ namespace ConvolutionalNeuralNetwork
             this.networkPathLabel.TabIndex = 3;
             this.networkPathLabel.Text = "Location";
             this.networkPathLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // testImagesButton
-            // 
-            this.testImagesButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.testImagesButton.Location = new System.Drawing.Point(289, 3);
-            this.testImagesButton.Name = "testImagesButton";
-            this.testImagesButton.Size = new System.Drawing.Size(138, 35);
-            this.testImagesButton.TabIndex = 17;
-            this.testImagesButton.Text = "Test Images";
-            this.testImagesButton.UseVisualStyleBackColor = true;
-            this.testImagesButton.Click += new System.EventHandler(this.testImagesButton_Click);
             // 
             // GUI
             // 
@@ -441,5 +454,6 @@ namespace ConvolutionalNeuralNetwork
         private Button generateDataButton;
         private Button generatePersonalizedDataButton;
         private Button testImagesButton;
+        private TextBox imagesToCreateTextBox;
     }
 }
