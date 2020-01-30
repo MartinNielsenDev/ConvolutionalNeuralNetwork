@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using ConvNetSharp.Core;
-using ConvNetSharp.Core.Layers.Double;
-using ConvNetSharp.Core.Training;
-using ConvNetSharp.Volume;
-using ConvNetSharp.Volume.Double;
-using ConvNetSharp.Core.Serialization;
+using ConvNeuralNetwork.Core;
+using ConvNeuralNetwork.Core.Layers.Double;
+using ConvNeuralNetwork.Core.Training;
+using ConvNeuralNetwork.Volume;
+using ConvNeuralNetwork.Volume.Double;
+using ConvNeuralNetwork.Core.Serialization;
 using System.Drawing;
 using System.IO;
 
@@ -40,12 +40,12 @@ namespace ConvNeuralNetwork
                 _classes = Directory.GetDirectories(Path.Combine(path, "train"), "*").Length;
                 _net = new Net<double>();
                 _net.AddLayer(new InputLayer(_image_x, _image_y, 1));
-                _net.AddLayer(new ConvLayer(5, 5, 8) { Stride = 1, Pad = 2 });
+                _net.AddLayer(new ConvLayer(5, 5, 2) { Stride = 1, Pad = 2 });
                 _net.AddLayer(new ReluLayer());
                 _net.AddLayer(new PoolLayer(2, 2) { Stride = 2 });
-                _net.AddLayer(new ConvLayer(5, 5, 16) { Stride = 1, Pad = 2 });
-                _net.AddLayer(new ReluLayer());
-                _net.AddLayer(new PoolLayer(3, 3) { Stride = 3 });
+                //_net.AddLayer(new ConvLayer(5, 5, 16) { Stride = 1, Pad = 2 });
+                //_net.AddLayer(new ReluLayer());
+                //_net.AddLayer(new PoolLayer(3, 3) { Stride = 3 });
                 _net.AddLayer(new FullyConnLayer(_classes));
                 _net.AddLayer(new SoftmaxLayer(_classes));
             }

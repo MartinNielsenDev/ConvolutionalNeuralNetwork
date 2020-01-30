@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-using ConvNetSharp.Volume;
-using ConvNetSharp.Volume.Double;
+using ConvNeuralNetwork.Volume;
+using ConvNeuralNetwork.Volume.Double;
 
 namespace ConvNeuralNetwork
 {
