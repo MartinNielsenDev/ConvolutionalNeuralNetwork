@@ -121,7 +121,6 @@
     <Compile Include="ConvNeuralNetwork.Volume\VolumeBuilder.cs" />
     <Compile Include="ConvNeuralNetwork.Volume\VolumeStorage.cs" />
     <Compile Include="DataSet.cs" />
-    <Compile Include="DataSets.cs" />
     <Compile Include="Entry.cs" />
     <Compile Include="Reader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

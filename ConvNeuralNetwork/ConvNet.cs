@@ -41,7 +41,9 @@ namespace ConvNeuralNetwork
 
             for (int i = 0; i < bitmaps.Length; i++)
             {
+                bitmaps[i].Save($@"C:\test\_debug\before_{Guid.NewGuid()}.png");
                 Bitmap resizedBitmap = Reader.ResizeBitmap(bitmaps[i], image_x, image_y);
+                resizedBitmap.Save($@"C:\test\_debug\after_{Guid.NewGuid()}.png");
                 byte[] byteArray = Reader.ToGrayscaleByte(resizedBitmap);
                 int j = 0;
 
