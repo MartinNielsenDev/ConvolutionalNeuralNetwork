@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 
@@ -85,7 +86,7 @@ namespace ConvNeuralNetwork
         }
         public static Bitmap ResizeBitmap(Bitmap src, int width, int height)
         {
-            Bitmap result = new Bitmap(width, height);
+            Bitmap result = new Bitmap(width, height, PixelFormat.Format24bppRgb);
             using (Graphics g = Graphics.FromImage(result))
             {
                 g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.Bilinear;
