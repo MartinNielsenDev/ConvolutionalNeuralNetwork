@@ -6,11 +6,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     public partial class GUI : Form
     {
-        private ConvolutionalNeuralNetwork network;
+        private ConvNet network;
         public GUI()
         {
             InitializeComponent();
@@ -33,7 +33,7 @@ namespace ConvolutionalNeuralNetwork
             {
                 try
                 {
-                    network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text);
+                    network = new ConvNet(28, 28, networkPathTextBox.Text);
                     Log("[OK] success");
                 }
                 catch (Exception err)
@@ -112,7 +112,7 @@ namespace ConvolutionalNeuralNetwork
                 {
                     await Task.Run(() =>
                     {
-                        network = new ConvolutionalNeuralNetwork(28, 28, networkPathTextBox.Text, json);
+                        network = new ConvNet(28, 28, networkPathTextBox.Text, json);
                         Log("[OK] success");
                     });
                 }

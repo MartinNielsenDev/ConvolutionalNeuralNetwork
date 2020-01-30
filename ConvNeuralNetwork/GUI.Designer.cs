@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     partial class GUI
     {
@@ -405,7 +405,7 @@ namespace ConvolutionalNeuralNetwork
             this.Name = "GUI";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ConvolutionalNeuralNetwork.Trainer";
+            this.Text = "ConvNeuralNetwork.Trainer";
             this.tabControl.ResumeLayout(false);
             this.trainerPage.ResumeLayout(false);
             this.trainerTextBoxPanel.ResumeLayout(false);

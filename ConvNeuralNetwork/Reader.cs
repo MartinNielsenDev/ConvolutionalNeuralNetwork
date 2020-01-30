@@ -3,7 +3,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     public static class Reader
     {

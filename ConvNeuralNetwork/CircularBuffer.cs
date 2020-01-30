@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     public class CircularBuffer<T>
     {

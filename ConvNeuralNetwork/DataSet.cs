@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using ConvNetSharp.Volume;
 using ConvNetSharp.Volume.Double;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     internal class DataSet
     {

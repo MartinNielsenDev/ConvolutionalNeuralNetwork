@@ -1,4 +1,4 @@
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     public class Entry
     {

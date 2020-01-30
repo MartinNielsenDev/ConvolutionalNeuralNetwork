@@ -9,9 +9,9 @@ using ConvNetSharp.Core.Serialization;
 using System.Drawing;
 using System.IO;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
-    public class ConvolutionalNeuralNetwork
+    public class ConvNet
     {
         internal static int _image_x, _image_y;
         private readonly CircularBuffer<double> _testAccWindow = new CircularBuffer<double>(100);
@@ -26,7 +26,7 @@ namespace ConvolutionalNeuralNetwork
         private Tuple<Volume<double>, Volume<double>, int[]> _testData;
         public bool Abort = false;
 
-        public ConvolutionalNeuralNetwork(int x, int y, string path, string json = null)
+        public ConvNet(int x, int y, string path, string json = null)
         {
             _image_x = x;
             _image_y = y;
