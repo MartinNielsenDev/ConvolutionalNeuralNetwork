@@ -1,8 +1,7 @@
 using System;
 using System.IO;
-using System.Net;
 
-namespace ConvolutionalNeuralNetwork
+namespace ConvNeuralNetwork
 {
     internal class DataSets
     {
